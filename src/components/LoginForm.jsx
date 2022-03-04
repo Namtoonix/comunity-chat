@@ -1,28 +1,34 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState } from "react";
+import axios from "axios";
 
-const projectID = '3a4a529a-932b-40ff-af9e-ad860c4a5bc2';
+const projectID = "3a4a529a-932b-40ff-af9e-ad860c4a5bc2";
 
 const Modal = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const authObject = { 'Project-ID': projectID, 'User-Name': username, 'User-Secret': password };
+    const authObject = {
+      "Project-ID": projectID,
+      "User-Name": username,
+      "User-Secret": password,
+    };
 
     try {
-      await axios.get('https://api.chatengine.io/chats', { headers: authObject });
+      await axios.get("https://api.chatengine.io/chats", {
+        headers: authObject,
+      });
 
-      localStorage.setItem('username', username);
-      localStorage.setItem('password', password);
+      localStorage.setItem("username", username);
+      localStorage.setItem("password", password);
 
       window.location.reload();
-      setError('');
+      setError("");
     } catch (err) {
-      setError('Oops, incorrect credentials.');
+      setError("Sai mật khẩu rồi bé ơi!");
     }
   };
 
@@ -31,8 +37,22 @@ const Modal = () => {
       <div className="form">
         <h1 className="title">Chat Application</h1>
         <form onSubmit={handleSubmit}>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="Username" required />
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Password" required />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="input"
+            placeholder="Username"
+            required
+          />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input"
+            placeholder="Password"
+            required
+          />
           <div align="center">
             <button type="submit" className="button">
               <span>Start chatting</span>
@@ -42,7 +62,6 @@ const Modal = () => {
         <h1>{error}</h1>
       </div>
     </div>
-
   );
 };
 
