@@ -1,23 +1,36 @@
 import { createContext, useState } from "react";
 
 const ThemeContext = createContext();
+const ShowOptionContext = createContext();
 
 function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(true);
+  const [showOption, setShowOption] = useState(false);
 
   const toggleTheme = () => {
-    console.log("nam");
     setTheme(!theme);
   };
+  const toggleShowOption = () => {
+    console.log(showOption);
+    setShowOption(!showOption);
+  };
 
-  const value = {
+  const themeData = {
     theme,
     toggleTheme,
   };
+  const showOptionData = {
+    showOption,
+    toggleShowOption,
+  };
 
   return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    <ThemeContext.Provider value={themeData}>
+      <ShowOptionContext.Provider value={showOptionData}>
+        {children}
+      </ShowOptionContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
-export { ThemeContext, ThemeProvider };
+export { ThemeContext, ShowOptionContext, ThemeProvider };

@@ -9,7 +9,7 @@ function ToggleTheme(props) {
   const context = useContext(ThemeContext);
 
   return (
-    <div
+    <div className="toggle_button"
       style={{
         position: "fixed",
         left: "10px",
@@ -20,7 +20,7 @@ function ToggleTheme(props) {
       }}
     >
       <Switch defaultChecked onChange={context.toggleTheme} />
-      <span style={{ marginLeft: "4px" }}>Dark Mode</span>
+      <span  style={{ marginLeft: "4px" }}>Dark Mode</span>
     </div>
   );
 }

@@ -1,10 +1,14 @@
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import MessageForm from "./MessageForm";
+import ToggleOption from "./ToggleOption";
+import { Avatar } from "antd";
+import React, { useContext } from "react";
+import { ShowOptionContext } from "../ThemeContext";
 
 const ChatFeed = (props) => {
   const { chats, activeChat, userName, messages } = props;
-
+  const context = useContext(ShowOptionContext);
   const chat = chats && chats[activeChat];
 
   const renderReadReceipts = (message, isMyMessage) =>
@@ -60,12 +64,23 @@ const ChatFeed = (props) => {
   if (!chat) return <div />;
 
   return (
-    <div className="chat-feed">
-      <div className="chat-title-container">
+    <div className={"chat-feed " + (context.showOption ? "" : "width_75")}>
+      <div className={"chat-title-container "}>
         <div className="chat-title">{chat?.title}</div>
         <div className="chat-subtitle">
-          {chat.people.map((person) => ` ${person.person.username}`)}
+          {chat.people.map((person, index) => (
+            <Avatar
+              key={index}
+              className={person.person.is_online ? "isOnline" : "isOffline"}
+              style={{
+                backgroundImage: `url(${person.person.avatar})`,
+                backgroundSize: "cover",
+                margin: "2px",
+              }}
+            />
+          ))}
         </div>
+        <ToggleOption />
       </div>
       {renderMessages()}
       <div style={{ height: "100px" }} />
