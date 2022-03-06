@@ -2,17 +2,21 @@ import { createContext, useState } from "react";
 
 const ThemeContext = createContext();
 const ShowOptionContext = createContext();
+const SearchContext = createContext();
 
 function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(true);
   const [showOption, setShowOption] = useState(false);
+  const [keySearch, setKeySearch] = useState("");
 
   const toggleTheme = () => {
     setTheme(!theme);
   };
   const toggleShowOption = () => {
-    console.log(showOption);
     setShowOption(!showOption);
+  };
+  const submitKeySearch = (keyData) => {
+    setKeySearch(keyData);
   };
 
   const themeData = {
@@ -23,14 +27,20 @@ function ThemeProvider({ children }) {
     showOption,
     toggleShowOption,
   };
+  const searchData = {
+    keySearch,
+    submitKeySearch,
+  };
 
   return (
     <ThemeContext.Provider value={themeData}>
       <ShowOptionContext.Provider value={showOptionData}>
-        {children}
+        <SearchContext.Provider value={searchData}>
+          {children}
+        </SearchContext.Provider>
       </ShowOptionContext.Provider>
     </ThemeContext.Provider>
   );
 }
 
-export { ThemeContext, ShowOptionContext, ThemeProvider };
+export { ThemeContext, ShowOptionContext, SearchContext, ThemeProvider };

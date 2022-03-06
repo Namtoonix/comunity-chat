@@ -1,10 +1,10 @@
-import { ChatCard, ChatEngine, ChatList, NewChatForm } from "react-chat-engine";
-
+import { useContext } from "react";
+import { ChatEngine } from "react-chat-engine";
+import "./App.css";
 import ChatFeed from "./components/ChatFeed";
 import LoginForm from "./components/LoginForm";
-import "./App.css";
+import SearchMessage from "./components/SearchMessage";
 import ToggleTheme from "./components/ToggleTheme";
-import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 
 const projectID = "3a4a529a-932b-40ff-af9e-ad860c4a5bc2";
@@ -22,12 +22,8 @@ function App() {
         projectID={projectID}
         userName={localStorage.getItem("username")}
         userSecret={localStorage.getItem("password")}
-        renderChatList={(chatAppState) => <ChatList {...chatAppState} />}
-        renderChatCard={(chat, index) => (
-          <ChatCard key={`${index}`} chat={chat} />
-        )}
-        renderNewChatForm={(creds) => <NewChatForm creds={creds} />}
         renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
+        renderChatSettingsTop={(creds, chat) => <SearchMessage />}
         onNewMessage={() =>
           new Audio(
             "https://chat-engine-assets.s3.amazonaws.com/click.mp3"

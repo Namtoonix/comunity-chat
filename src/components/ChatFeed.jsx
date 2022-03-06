@@ -1,15 +1,26 @@
+import { Avatar } from "antd";
+import React, { useContext, useEffect, useRef } from "react";
+import { SearchContext, ShowOptionContext } from "../ThemeContext";
+import MessageForm from "./MessageForm";
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
-import MessageForm from "./MessageForm";
 import ToggleOption from "./ToggleOption";
-import { Avatar } from "antd";
-import React, { useContext } from "react";
-import { ShowOptionContext } from "../ThemeContext";
 
 const ChatFeed = (props) => {
   const { chats, activeChat, userName, messages } = props;
   const context = useContext(ShowOptionContext);
+  const search = useContext(SearchContext);
   const chat = chats && chats[activeChat];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const arrMessageSearch = [];
+
+  function executeScroll(arrSearch) {
+    if (arrSearch.length < 1) return;
+    const length = arrSearch.length - 1;
+    const element = document.getElementById(`${arrSearch[length].id}`);
+    if (!element) return;
+    element.scrollIntoView();
+  }
 
   const renderReadReceipts = (message, isMyMessage) =>
     chat.people.map(
@@ -35,9 +46,21 @@ const ChatFeed = (props) => {
       const lastMessageKey = index === 0 ? null : keys[index - 1];
       const isMyMessage = userName === message.sender.username;
 
+      let isSearching = false;
+      if (
+        search.keySearch !== "" &&
+        message.text.toLowerCase().indexOf(search.keySearch) > -1
+      ) {
+        isSearching = true;
+        arrMessageSearch.push(message);
+      }
+
       return (
         <div key={`msg_${index}`} style={{ width: "100%" }}>
-          <div className="message-block">
+          <div
+            id={message.id}
+            className={"message-block " + (isSearching ? "searching" : "")}
+          >
             {isMyMessage ? (
               <MyMessage message={message} />
             ) : (
@@ -60,6 +83,9 @@ const ChatFeed = (props) => {
       );
     });
   };
+  useEffect(() => {
+    executeScroll(arrMessageSearch);
+  }, [arrMessageSearch]);
 
   if (!chat) return <div />;
 
