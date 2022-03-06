@@ -16,6 +16,7 @@ function SearchMessage(props) {
 
   return (
     <form
+      id="form-search"
       onSubmit={(e) => {
         e.preventDefault();
         handleSubmit(keyWorld);
@@ -29,7 +30,10 @@ function SearchMessage(props) {
         type="text"
         value={keyWorld}
       />
-      <i className="fa fa-search" aria-hidden="true"></i>
+      <input type="submit" id="submit-form" className="hidden" />
+      <label htmlFor="submit-form">
+        <i className="fa fa-search" aria-hidden="true"></i>
+      </label>
     </form>
   );
 }

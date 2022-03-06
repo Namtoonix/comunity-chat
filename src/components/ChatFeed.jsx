@@ -1,8 +1,10 @@
 import { Avatar } from "antd";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SearchContext, ShowOptionContext } from "../ThemeContext";
 import MessageForm from "./MessageForm";
 import MyMessage from "./MyMessage";
+import NavSearch from "./NavSearch";
+
 import TheirMessage from "./TheirMessage";
 import ToggleOption from "./ToggleOption";
 
@@ -13,14 +15,6 @@ const ChatFeed = (props) => {
   const chat = chats && chats[activeChat];
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const arrMessageSearch = [];
-
-  function executeScroll(arrSearch) {
-    if (arrSearch.length < 1) return;
-    const length = arrSearch.length - 1;
-    const element = document.getElementById(`${arrSearch[length].id}`);
-    if (!element) return;
-    element.scrollIntoView();
-  }
 
   const renderReadReceipts = (message, isMyMessage) =>
     chat.people.map(
@@ -45,7 +39,10 @@ const ChatFeed = (props) => {
       const message = messages[key];
       const lastMessageKey = index === 0 ? null : keys[index - 1];
       const isMyMessage = userName === message.sender.username;
-
+      const data = {
+        keySearch: search.keySearch,
+        arrMessageSearch,
+      };
       let isSearching = false;
       if (
         search.keySearch !== "" &&
@@ -57,6 +54,7 @@ const ChatFeed = (props) => {
 
       return (
         <div key={`msg_${index}`} style={{ width: "100%" }}>
+          {isSearching ? <NavSearch data={data} /> : ""}
           <div
             id={message.id}
             className={"message-block " + (isSearching ? "searching" : "")}
@@ -83,9 +81,6 @@ const ChatFeed = (props) => {
       );
     });
   };
-  useEffect(() => {
-    executeScroll(arrMessageSearch);
-  }, [arrMessageSearch]);
 
   if (!chat) return <div />;
 
