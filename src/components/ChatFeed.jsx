@@ -1,10 +1,10 @@
 import { Avatar } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { SearchContext, ShowOptionContext } from "../ThemeContext";
 import MessageForm from "./MessageForm";
 import MyMessage from "./MyMessage";
 import NavSearch from "./NavSearch";
-
+import ScrollBottom from "./ScrollBottom";
 import TheirMessage from "./TheirMessage";
 import ToggleOption from "./ToggleOption";
 
@@ -104,6 +104,7 @@ const ChatFeed = (props) => {
         <ToggleOption />
       </div>
       {renderMessages()}
+      <ScrollBottom messages={messages} />
       <div style={{ height: "100px" }} />
       <div className="message-form-container">
         <MessageForm {...props} chatId={activeChat} />

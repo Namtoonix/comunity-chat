@@ -16,6 +16,7 @@ function App() {
   const context = useContext(ThemeContext);
   return (
     <div className={context.theme ? "dark" : "false"}>
+      
       <ToggleTheme />
       <ChatEngine
         height="100vh"
